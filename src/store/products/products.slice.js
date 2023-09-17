@@ -14,7 +14,7 @@ export const fetchProducts = createAsyncThunk(
       } else {
         response = await axios.get("https://fakestoreapi.com/products");
       }
-      console.log(response, category);
+      // console.log(response, category);
       return response.data; //payload
     } catch (error) {
       thunkAPI.rejectWithValue("Error loading products");

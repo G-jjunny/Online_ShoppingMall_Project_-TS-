@@ -2,8 +2,33 @@ import { Link } from "react-router-dom";
 import styles from "./Nav.module.scss";
 import { FiLogIn, FiShoppingCart, FiUser } from "react-icons/fi";
 import { GoSignOut } from "react-icons/go";
+import { useAuth } from "../../../hooks/useAuth";
+import { getAuth, signOut } from "firebase/auth";
+import app from "../../../firebase";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { removeUser } from "../../../store/user/user.slice";
+import { removeUserId } from "../../../store/cart/cart.slice";
+import NavCartBlock from "./nav-cart-block/NavCartBlock";
 
 const Nav = () => {
+  const { isAuth } = useAuth();
+  const auth = getAuth(app);
+  const dispatch = useAppDispatch();
+  const { products } = useAppSelector((state) => state.cartSlice);
+
+  // console.log(products);
+
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch(removeUser());
+        dispatch(removeUserId());
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <nav className={styles.nav}>
       <ul>
@@ -13,6 +38,12 @@ const Nav = () => {
               {" "}
               <FiShoppingCart />
             </Link>
+            {products.length > 0 && <b>{products.length}</b>}
+            {products.length > 0 && (
+              <div className={styles.nav_hover_cart}>
+                <NavCartBlock />
+              </div>
+            )}
           </div>
         </li>
         <li>
@@ -23,10 +54,17 @@ const Nav = () => {
           </div>
         </li>
         <li>
-          <GoSignOut className={styles.nav_sign_out} title="logout" />
-          <Link to={"/login"}>
-            <FiLogIn title="로그인" />
-          </Link>
+          {isAuth ? (
+            <GoSignOut
+              className={styles.nav_sign_out}
+              title="로그아웃"
+              onClick={handleSignOut}
+            />
+          ) : (
+            <Link to={"/login"}>
+              <FiLogIn title="로그인" />
+            </Link>
+          )}
         </li>
       </ul>
     </nav>

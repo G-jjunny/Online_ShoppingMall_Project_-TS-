@@ -36,8 +36,8 @@ export const cartSlice = createSlice({
       localStorage.setItem("userId", JSON.stringify(state.userId));
     },
     removeUserId: (state, action) => {
-      (state.userId = ""),
-        localStorage.setItem("userId", JSON.stringify(state.userId));
+      state.userId = "";
+      localStorage.setItem("userId", JSON.stringify(state.userId));
     },
     addToCart: (state, action) => {
       state.products.push({
