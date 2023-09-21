@@ -1,9 +1,15 @@
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import styles from "./CardItem.module.scss";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
 import { addToCart } from "../../../../store/cart/cart.slice";
+import { IProduct } from "../../../../store/products/products.type";
 
-const CardItem = ({ item }) => {
+type CardItemProps = {
+  item: IProduct;
+};
+
+const CardItem: FC<CardItemProps> = ({ item }) => {
   const { products } = useAppSelector((state) => state.cartSlice);
   const productMatching = products.some((product) => product.id === item.id);
 

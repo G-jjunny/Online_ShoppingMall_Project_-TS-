@@ -7,8 +7,14 @@ import {
 } from "../../../../store/cart/cart.slice";
 import styles from "./CartItem.module.scss";
 import { AiOutlineDelete } from "react-icons/ai";
+import { IProduct } from "../../../../store/products/products.type";
+import { FC } from "react";
 
-const CartItem = ({ item }) => {
+type CartItemProps = {
+  item: IProduct;
+};
+
+const CartItem: FC<CartItemProps> = ({ item }) => {
   const dispatch = useAppDispatch();
 
   const deleteProduct = () => {

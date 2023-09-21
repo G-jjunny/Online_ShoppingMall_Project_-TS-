@@ -14,14 +14,14 @@ const SignUp = () => {
   const dispatch = useDispatch();
 
   const auth = getAuth(app);
-  const handleSignUpAndLogin = (email, password) => {
+  const handleSignUpAndLogin = (email: string, password: string) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // 리덕스 스토어에 담는 로직
         dispatch(
           setUser({
             email: userCredential.user.email,
-            token: userCredential.user.token,
+            token: userCredential.user.refreshToken,
             id: userCredential.user.uid,
           })
         );

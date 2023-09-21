@@ -13,13 +13,13 @@ const SignIn = () => {
   const dispatch = useDispatch();
 
   const auth = getAuth(app);
-  const handleLogin = (email, password) => {
+  const handleLogin = (email: string, password: string) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         dispatch(
           setUser({
             email: userCredential.user.email,
-            token: userCredential.user.token,
+            token: userCredential.user.refreshToken,
             id: userCredential.user.uid,
           })
         );
